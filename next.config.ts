@@ -6,9 +6,12 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["@chakra-ui/react"],
   },
   env: {
-    NEXT_PUBLIC_NEXTAUTH_URL: process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}`
-      : process.env.NEXTAUTH_URL || 'http://localhost:3000'
+    NEXT_PUBLIC_URL:
+      process.env.NEXTAUTH_URL != undefined
+        ? process.env.NEXTAUTH_URL
+        : process.env.VERCEL_ENV === "production"
+        ? `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`
+        : `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
   }
 };
 
