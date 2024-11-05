@@ -1,6 +1,6 @@
 export function instagramAuthUrl() {
     const clientId = 928033152510197
-    const redirectUri = 'https://3df2-91-205-107-123.ngrok-free.app/api/auth/instagram'
+    const redirectUri = `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/auth/instagram`
     const scope = 'business_basic'
     const responseType = 'code'
 

@@ -17,7 +17,7 @@ export async function GET(request: Request) {
   const code = searchParams.get('code')
 
   if (!code) {
-    return NextResponse.redirect(new URL('/settings?error=no_code', process.env.NEXTAUTH_URL))
+    return NextResponse.redirect(new URL('/settings?error=no_code', process.env.NEXT_PUBLIC_NEXTAUTH_URL))
   }
 
   try {
@@ -26,7 +26,7 @@ export async function GET(request: Request) {
       client_id: process.env.INSTAGRAM_CLIENT_ID!,
       client_secret: process.env.INSTAGRAM_CLIENT_SECRET!,
       grant_type: 'authorization_code',
-      redirect_uri: `${process.env.NEXTAUTH_URL}/api/auth/instagram`,
+      redirect_uri: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/auth/instagram`,
       code: code
     })
 
