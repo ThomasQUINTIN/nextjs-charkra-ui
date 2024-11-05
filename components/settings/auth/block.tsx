@@ -1,12 +1,13 @@
-'use client'
-
-import { Button, Container, Flex, HStack, Stack, Text } from '@chakra-ui/react'
-import { LuAtSign } from 'react-icons/lu'
-import { SiApple, SiGoogle, SiInstagram } from 'react-icons/si'
+'use client';
+import { Container, Spacer, Stack, Text } from '@chakra-ui/react';
+import { SiInstagram } from 'react-icons/si';
 import { AuthCard } from './auth-card'
 import { ThemeSelector } from '../theme-selector'
+import { instagramAuthUrl, useInstagramStatus } from '@/lib/instagram';
 
 export const Block = () => {
+  const { data: instagramStatus } = useInstagramStatus()
+
   return (
     <Container maxW="xl" py="20">
       <Stack gap="6">
@@ -39,8 +40,10 @@ export const Block = () => {
           </AuthCard> */}
           {/* <AuthCard icon={<SiGoogle />} title="Google" description="Connect your Google account" />
           <AuthCard icon={<SiApple />} title="Apple" description="Connect your Apple account" /> */}
-          <AuthCard icon={<SiInstagram />} title="Instagram" description="Connect your Instagram account" />
+          <AuthCard icon={<SiInstagram />} title="Instagram" description="Connect your Instagram account" href={instagramAuthUrl()} connected={instagramStatus?.isConnected} connectedAccount={instagramStatus?.user?.username}/>
         </Stack>
+        <Spacer />
+        <Text color="fg.muted">Manage your theme settings</Text>
         <ThemeSelector />
       </Stack>
     </Container>

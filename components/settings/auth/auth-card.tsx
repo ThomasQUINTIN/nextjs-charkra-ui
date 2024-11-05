@@ -1,5 +1,6 @@
 import { Box, Button, Card, HStack, Icon } from '@chakra-ui/react'
 import { LuCheck } from 'react-icons/lu'
+import Link from 'next/link'
 
 interface AuthCardProps {
   icon: React.ReactNode
@@ -7,10 +8,24 @@ interface AuthCardProps {
   description: string
   connected?: boolean
   children?: React.ReactNode
+  handleConnect?: () => void
+  href?: string
+  connectedAccount?: string
 }
 
 export const AuthCard = (props: AuthCardProps) => {
-  const { icon, title, description, connected, children } = props
+  const { icon, title, description, connected, children, handleConnect, href, connectedAccount } = props
+
+  const ConnectButton = () => (
+    <Button disabled={connected} size="sm" variant="outline" colorPalette="gray" bg="bg" onClick={handleConnect}>
+      {connected && (
+        <Icon color="fg.success">
+          <LuCheck />
+        </Icon>
+      )}
+      {connected ? 'Connected' : 'Connect'}
+    </Button>
+  )
   return (
     <Card.Root size="sm">
       <Card.Body>
@@ -18,16 +33,15 @@ export const AuthCard = (props: AuthCardProps) => {
           {icon}
           <Box flex="1">
             <Card.Title>{title}</Card.Title>
-            <Card.Description>{description}</Card.Description>
+            <Card.Description>{connectedAccount ? `( ${connectedAccount} )` : description}</Card.Description>
           </Box>
-          <Button disabled={connected} size="sm" variant="outline" colorPalette="gray" bg="bg">
-            {connected && (
-              <Icon color="fg.success">
-                <LuCheck />
-              </Icon>
-            )}
-            {connected ? 'Connected' : 'Connect'}
-          </Button>
+          {href ? (
+            <Link href={href} passHref legacyBehavior>
+              <ConnectButton />
+            </Link>
+          ) : (
+            <ConnectButton />
+          )}
         </HStack>
       </Card.Body>
       {children && <Card.Footer>{children}</Card.Footer>}
