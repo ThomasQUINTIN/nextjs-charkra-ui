@@ -1,6 +1,7 @@
 import { Box, Button, Card, HStack, Icon } from '@chakra-ui/react'
 import { LuCheck } from 'react-icons/lu'
 import Link from 'next/link'
+import { timeAgo } from '@/lib/ago'
 
 interface AuthCardProps {
   icon: React.ReactNode
@@ -11,21 +12,12 @@ interface AuthCardProps {
   handleConnect?: () => void
   href?: string
   connectedAccount?: string
+  expiredAccount?: Date
 }
 
 export const AuthCard = (props: AuthCardProps) => {
-  const { icon, title, description, connected, children, handleConnect, href, connectedAccount } = props
+  const { icon, title, description, connected, children, handleConnect, href, connectedAccount, expiredAccount } = props
 
-  const ConnectButton = () => (
-    <Button disabled={connected} size="sm" variant="outline" colorPalette="gray" bg="bg" onClick={handleConnect}>
-      {connected && (
-        <Icon color="fg.success">
-          <LuCheck />
-        </Icon>
-      )}
-      {connected ? 'Connected' : 'Connect'}
-    </Button>
-  )
   return (
     <Card.Root size="sm">
       <Card.Body>
@@ -33,15 +25,18 @@ export const AuthCard = (props: AuthCardProps) => {
           {icon}
           <Box flex="1">
             <Card.Title>{title}</Card.Title>
-            <Card.Description>{connectedAccount ? `( ${connectedAccount} )` : description}</Card.Description>
+            <Card.Description>{connectedAccount ? `${connectedAccount} (${expiredAccount ? timeAgo(expiredAccount, undefined, true) : 'never'})` : description}</Card.Description>
           </Box>
-          {href ? (
-            <Link href={href} passHref legacyBehavior>
-              <ConnectButton />
-            </Link>
-          ) : (
-            <ConnectButton />
-          )}
+          <Link href={href || '/'} passHref legacyBehavior={!href}>
+            <Button disabled={connected} size="sm" variant="outline" colorPalette="gray" bg="bg" onClick={handleConnect}>
+              {connected && (
+                <Icon color="fg.success">
+                  <LuCheck />
+                </Icon>
+              )}
+              {connected ? 'Connected' : 'Connect'}
+            </Button>
+          </Link>
         </HStack>
       </Card.Body>
       {children && <Card.Footer>{children}</Card.Footer>}

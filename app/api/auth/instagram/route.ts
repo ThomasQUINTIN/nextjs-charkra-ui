@@ -70,7 +70,7 @@ export async function GET(request: Request) {
       expires: expiresTimestamp,
       secure: true,
     })
-    cookieStore.set('instagram_expires_in', longLivedToken.expires_in.toString())
+    cookieStore.set('instagram_expires_at', expiresTimestamp.toString())
 
     // Redirect with the long-lived access token
     return NextResponse.redirect(

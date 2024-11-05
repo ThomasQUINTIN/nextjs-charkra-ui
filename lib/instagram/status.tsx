@@ -9,6 +9,7 @@ export const useInstagramStatus = () => {
       onSuccess(data) {
         console.log('Instagram status:', data)
       },
+      refetchOnReconnect: false,
       initialData: {
         isConnected: false,
         message: 'Loading...'

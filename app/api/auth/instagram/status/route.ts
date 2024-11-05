@@ -6,6 +6,7 @@ export type InstagramStatusResponse = {
   user?: {
     id: string
     username: string
+    expiredAccount?: Date
   }
   message?: string
 }
@@ -13,6 +14,7 @@ export type InstagramStatusResponse = {
 export async function GET() {
   const cookieStore = await cookies()
   const accessToken = cookieStore.get('instagram_access_token')
+  const expiresAt = cookieStore.get('instagram_expires_at')
 
   if (!accessToken) {
     return NextResponse.json({
@@ -38,7 +40,8 @@ export async function GET() {
       isConnected: true,
       user: {
         id: data.id,
-        username: data.username
+        username: data.username,
+        expiredAccount: expiresAt ? new Date(parseInt(expiresAt.value)) : undefined
       }
     })
 

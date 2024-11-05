@@ -40,7 +40,7 @@ export const Block = () => {
           </AuthCard> */}
           {/* <AuthCard icon={<SiGoogle />} title="Google" description="Connect your Google account" />
           <AuthCard icon={<SiApple />} title="Apple" description="Connect your Apple account" /> */}
-          <AuthCard icon={<SiInstagram />} title="Instagram" description="Connect your Instagram account" href={instagramAuthUrl()} connected={instagramStatus?.isConnected} connectedAccount={instagramStatus?.user?.username}/>
+          <AuthCard icon={<SiInstagram />} title="Instagram" description="Connect your Instagram account" href={instagramAuthUrl()} connected={instagramStatus?.isConnected} connectedAccount={instagramStatus?.user?.username} expiredAccount={instagramStatus?.user?.expiredAccount}/>
         </Stack>
         <Spacer />
         <Text color="fg.muted">Manage your theme settings</Text>
