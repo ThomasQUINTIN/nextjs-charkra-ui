@@ -1,7 +1,10 @@
+'use client'
+
 import { Button, Container, Flex, HStack, Stack, Text } from '@chakra-ui/react'
 import { LuAtSign } from 'react-icons/lu'
-import { SiApple, SiGoogle } from 'react-icons/si'
+import { SiApple, SiGoogle, SiInstagram } from 'react-icons/si'
 import { AuthCard } from './auth-card'
+import { ThemeSelector } from '../theme-selector'
 
 export const Block = () => {
   return (
@@ -14,7 +17,7 @@ export const Block = () => {
           <Text color="fg.muted">Manage your authentication settings</Text>
         </Stack>
         <Stack gap="4">
-          <AuthCard
+          {/* <AuthCard
             icon={<LuAtSign />}
             title="Email"
             description="You can use your email to sign in"
@@ -33,10 +36,12 @@ export const Block = () => {
                 </Button>
               </HStack>
             </Flex>
-          </AuthCard>
-          <AuthCard icon={<SiGoogle />} title="Google" description="Connect your Google account" />
-          <AuthCard icon={<SiApple />} title="Apple" description="Connect your Apple account" />
+          </AuthCard> */}
+          {/* <AuthCard icon={<SiGoogle />} title="Google" description="Connect your Google account" />
+          <AuthCard icon={<SiApple />} title="Apple" description="Connect your Apple account" /> */}
+          <AuthCard icon={<SiInstagram />} title="Instagram" description="Connect your Instagram account" />
         </Stack>
+        <ThemeSelector />
       </Stack>
     </Container>
   )
