@@ -82,7 +82,7 @@ export async function GET(request: Request) {
   } catch (error) {
     console.error('Error exchanging code for token:', error)
     return NextResponse.redirect(
-      new URL('/settings?error=token_exchange_failed', process.env.NEXTAUTH_URL)
+      new URL('/settings?error=token_exchange_failed', process.env.NEXT_PUBLIC_URL)
     )
   }
 }
