@@ -3,14 +3,14 @@ import { DarkModeIcon, LightModeIcon, SystemModeIcon } from './theme-icons'
 import { useTheme } from 'next-themes'
 
 export const ThemeSelector = () => {
-  const { setTheme } = useTheme()
+  const { resolvedTheme, setTheme } = useTheme()
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setTheme(e.target.value as string)
   }
 
   return (
-    <RadioCard.Root size="sm" defaultValue="system" width="full" onChange={handleChange}>
+    <RadioCard.Root size="sm" defaultValue={resolvedTheme} width="full" onChange={handleChange}>
       <Flex gap="4">
         {items.map((item) => (
           <RadioCard.Item key={item.value} value={item.value} overflow="hidden" flex="1">
