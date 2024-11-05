@@ -8,6 +8,7 @@ import {
 import type { PropsWithChildren } from 'react'
 import { ColorModeProvider } from './color-mode'
 import { theme } from '@chakra-ui/pro-theme'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 const system = createSystem(defaultConfig, {
   globalCss: {
@@ -32,10 +33,15 @@ const system = createSystem(defaultConfig, {
   },
 })
 
-export const Provider = (props: PropsWithChildren) => (
-  <ChakraProvider value={system}>
-    <ColorModeProvider>
-      {props.children}
-    </ColorModeProvider>
-  </ChakraProvider>
-)
+export const Provider = (props: PropsWithChildren) => {
+  const queryClient = new QueryClient()
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider value={system}>
+        <ColorModeProvider>
+          {props.children}
+        </ColorModeProvider>
+      </ChakraProvider>
+    </QueryClientProvider>
+  )
+}
