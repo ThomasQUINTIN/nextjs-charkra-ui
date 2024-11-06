@@ -15,13 +15,14 @@ export async function POST(request: Request) {
     try {
         const response = await fetch(`https://graph.instagram.com/v21.0/${ig_id}/media`, {
             method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${accessToken.value}`
-        },
-        body: JSON.stringify({
-            caption,
-            image_url
-        })
+            headers: {
+                'Authorization': `Bearer ${accessToken.value}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                caption,
+                image_url
+            })
         })
 
         return NextResponse.json(await response.json())

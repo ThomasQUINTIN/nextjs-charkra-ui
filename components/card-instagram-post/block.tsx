@@ -66,7 +66,7 @@ export const Block = ({ username, userId, avatar, image, location, likes, captio
               <Box as="button" h="6" w="6" color="fg.muted" onClick={async () => {
                 if (userId && caption && image) {
                   const container = await instagramPublishContainer(userId, caption, image)
-                  setContainer(container)
+                  setContainer(container.id)
                 }
               }}>
                 {/* Share icon */}
