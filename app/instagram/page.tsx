@@ -20,18 +20,12 @@ export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
   const [currentPost, setCurrentPost] = useState<Post | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   useEffect(() => {
     setIsMounted(true);
-    return () => {
-      imageUrls.forEach(url => URL.revokeObjectURL(url));
-    };
   }, []);
 
-  const handleGenerate = () => {
-    imageUrls.forEach(url => URL.revokeObjectURL(url));
-    
+  const handleGenerate = () => {    
     fetch('/api/openai/post', {
       method: 'POST',
       body: JSON.stringify({ prompt: caption })
@@ -40,20 +34,6 @@ export default function Home() {
     .then(data => {
       setCurrentPost(data.posts[0]);
       setCurrentImageIndex(0);
-      
-      const urls = data.posts[0].carousel.map((item: Post['carousel'][number]) => {
-        const byteCharacters = atob(item.image);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: 'image/jpeg' });
-        
-        return URL.createObjectURL(blob);
-      });
-      
-      setImageUrls(urls);
     });
   };
 
@@ -100,7 +80,7 @@ export default function Home() {
                 userId={instagramStatus?.user?.id}
                 username={instagramStatus?.user?.username || 'username'}
                 avatar="https://tinyurl.com/2p8h98w8"
-                image={imageUrls[currentImageIndex]}
+                image={currentPost.carousel[currentImageIndex].image}
                 caption={currentPost.caption}
                 timestamp="Just now"
               />

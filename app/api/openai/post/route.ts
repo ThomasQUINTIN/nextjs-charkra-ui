@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import OpenAI from 'openai';
 import { zodResponseFormat } from "openai/helpers/zod";
 import { Background, Post, PostSchema } from "../types.dto";
+import { put } from '@vercel/blob';
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -52,11 +53,18 @@ async function generateImage(background: Background, citation: string) {
             font_size: 60,
             color: "#fff"
         })
-    })
+    });
 
-    const base64Data = await image.arrayBuffer();
+    const buffer = Buffer.from(await image.arrayBuffer());
+    
+    // Upload to Vercel Blob with 1 hour cache
+    const blob = await put(`${Date.now()}.jpg`, buffer, {
+        access: 'public',
+        addRandomSuffix: true,
+        cacheControlMaxAge: 600, // 10 minutes in seconds
+    });
 
-    return Buffer.from(base64Data).toString('base64');
+    return blob.url;
 }
 
 async function generatePost(post: Post) {
