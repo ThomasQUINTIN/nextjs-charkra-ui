@@ -16,7 +16,7 @@ interface Post {
 
 export default function Home() {
   const { data: instagramStatus } = useInstagramStatus()
-  const [caption, setCaption] = useState("");
+  const [prompt, setPrompt] = useState("");
   const [isMounted, setIsMounted] = useState(false);
   const [currentPost, setCurrentPost] = useState<Post | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -28,7 +28,7 @@ export default function Home() {
   const handleGenerate = () => {    
     fetch('/api/openai/post', {
       method: 'POST',
-      body: JSON.stringify({ prompt: caption })
+      body: JSON.stringify({ prompt })
     })
     .then(response => response.json())
     .then(data => {
@@ -61,9 +61,9 @@ export default function Home() {
         </Heading>
         <HStack width="full" gap={4}>
           <Input
-            placeholder="Entrez votre caption..."
-            value={caption}
-            onChange={(e) => setCaption(e.target.value)}
+            placeholder="Entrez votre prompt..."
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
           />
           <Button
             colorScheme="blue"
