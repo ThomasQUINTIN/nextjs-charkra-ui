@@ -3,6 +3,7 @@
 import { Container, VStack, Button, Input, HStack, Heading, Box } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { CardInstaPost } from "@/components";
+import { useInstagramStatus } from "@/lib/instagram";
 
 interface Post {
   caption: string;
@@ -14,6 +15,7 @@ interface Post {
 }
 
 export default function Home() {
+  const { data: instagramStatus } = useInstagramStatus()
   const [caption, setCaption] = useState("");
   const [isMounted, setIsMounted] = useState(false);
   const [currentPost, setCurrentPost] = useState<Post | null>(null);
@@ -95,7 +97,8 @@ export default function Home() {
           {currentPost && (
             <Box position="relative" width="full">
               <CardInstaPost
-                username="your_username"
+                userId={instagramStatus?.user?.id}
+                username={instagramStatus?.user?.username || 'username'}
                 avatar="https://tinyurl.com/2p8h98w8"
                 image={imageUrls[currentImageIndex]}
                 caption={currentPost.caption}
