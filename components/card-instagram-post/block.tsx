@@ -1,9 +1,10 @@
-'use client'
-
+'use client';
 import { AspectRatio, Box, Card, HStack, Image, Stack, Text } from '@chakra-ui/react'
 import { Avatar } from '@/components/ui/avatar'
 import { instagramPublishContainer } from '@/lib/instagram'
 import { useState } from 'react'
+import { ActionBarContent, ActionBarRoot, ActionBarSelectionTrigger, ActionBarSeparator } from '../ui/action-bar'
+import { Checkbox } from '../ui/checkbox'
 
 interface BlockProps {
   username: string
@@ -17,7 +18,8 @@ interface BlockProps {
 }
 
 export const Block = ({ username, userId, avatar, image, location, likes, caption, timestamp }: BlockProps) => {
-  const [container, setContainer] = useState<number | null>(null)
+  const [container, setContainer] = useState<string | null>(null)
+  const [publish, setPublish] = useState(false)
 
   return (
     <Card.Root overflow="hidden" maxW="lg">
@@ -65,7 +67,8 @@ export const Block = ({ username, userId, avatar, image, location, likes, captio
               </Box>
               <Box as="button" h="6" w="6" color="fg.muted" onClick={async () => {
                 if (userId && caption && image) {
-                  const container = await instagramPublishContainer(userId, caption, image)
+                  const container = await instagramPublishContainer(userId, caption, image, publish)
+                  if (container && container.id)
                   setContainer(container.id)
                 }
               }}>
@@ -74,11 +77,19 @@ export const Block = ({ username, userId, avatar, image, location, likes, captio
                   <path d="M22 3L9.218 10.083M11.698 20.334L22 3.001H2L9.218 10.084 11.698 20.334z" />
                 </svg>
               </Box>
-              {container && (
-                <Text fontSize="xs" color="fg.muted">
-                  {container}
-                </Text>
-              )}
+              <ActionBarRoot open={!!userId && !!caption && !!image}>
+                <ActionBarContent>
+                  {container && (
+                    <>
+                      <ActionBarSelectionTrigger>{container}</ActionBarSelectionTrigger>
+                      <ActionBarSeparator />
+                    </>
+                  )}
+                  <Checkbox onCheckedChange={(e) => setPublish(!!e.checked)}>
+                    Publish
+                  </Checkbox>
+                </ActionBarContent>
+              </ActionBarRoot>
             </HStack>
             <Box flex="1" />
             <Box as="button" h="6" w="6" color="fg.muted">
