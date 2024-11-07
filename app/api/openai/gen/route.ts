@@ -4,8 +4,7 @@ import { NextResponse } from 'next/server';
 import { Container, ContainerSchema } from './types.dto';
 import completionsParamsJson from './completions-params.json'
 import { put } from '@vercel/blob';
-import { createImageCitation } from '@/lib/sharp/citation';
-
+import { createImage } from '@/lib/sharp';
 import path from 'path';
 
 path.resolve(process.cwd(), 'fonts', 'fonts.conf');
@@ -68,7 +67,7 @@ export async function POST(request: Request) {
         return {
             ...post,
             container: await Promise.all(post.container.map(async (element) => {
-                const buffer = await createImageCitation(element);
+                const buffer = await createImage(element, theme);
                 const blob = await put(`${Date.now()}.jpg`, buffer, {
                     access: 'public',
                     addRandomSuffix: true,
