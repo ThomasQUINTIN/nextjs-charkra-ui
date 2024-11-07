@@ -6,6 +6,11 @@ import completionsParamsJson from './completions-params.json'
 import { put } from '@vercel/blob';
 import { createImageCitation } from '@/lib/sharp/citation';
 
+import path from 'path';
+
+path.resolve(process.cwd(), 'fonts', 'fonts.conf');
+path.resolve(process.cwd(), 'fonts', 'Doto.ttf');
+
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
