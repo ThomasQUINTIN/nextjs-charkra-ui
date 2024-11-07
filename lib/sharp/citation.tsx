@@ -23,17 +23,28 @@ export async function createImageCitation(element: ContainerElement) {
 
     const svgText = `
         <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
-            <rect width="100%" height="100%" fill="${backgroundColor}" />
             <text x="50%" y="${yOffset + fontSize}" font-size="${fontSize}" fill="${textColor}" text-anchor="middle" dominant-baseline="middle" font-family="DancingScript">
             ${lines.map((line, index) => `<tspan x="50%" dy="${index === 0 ? 0 : lineHeight}">${line}</tspan>`).join('')}
             </text>
         </svg>`;
 
-    const image = sharp(Buffer.from(svgText))
+    const image = sharp({
+        create: {
+            width,
+            height,
+            channels: 4,
+            background: backgroundColor as string,
+        }
+    })
+        .composite([{
+            input: Buffer.from(svgText),
+            blend: 'over',
+            top: 0,
+            left: 0
+        }])
         .jpeg({
             quality: 100
-        })
-        .resize(width, height, { fit: 'contain' });
+        }).resize(width, height, { fit: 'contain' });
 
     return image.toBuffer()
 }
