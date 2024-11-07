@@ -10,6 +10,7 @@ import path from 'path';
 
 path.resolve(process.cwd(), 'fonts', 'fonts.conf');
 path.resolve(process.cwd(), 'fonts', 'Doto.ttf');
+path.resolve(process.cwd(), 'fonts', 'DancingScript.ttf');
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
