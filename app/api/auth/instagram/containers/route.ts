@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { del } from '@vercel/blob';
 
 export type PublishContainerRequest = {
     ig_id: string
@@ -52,6 +53,8 @@ export async function POST(request: Request): Promise<NextResponse<PublishContai
         })
 
         const media_publish = await responseMedia_publish.json()
+
+        await del(image_url)
 
         return NextResponse.json(media_publish)
     } catch (error) {

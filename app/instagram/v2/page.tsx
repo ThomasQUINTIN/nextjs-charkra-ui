@@ -10,7 +10,6 @@ export default function Home() {
   const { data: instagramStatus } = useInstagramStatus()
   const [prompt, setPrompt] = useState("");
   const [isMounted, setIsMounted] = useState(false);
-
   
   useEffect(() => {
     setIsMounted(true);
