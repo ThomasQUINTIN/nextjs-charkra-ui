@@ -24,7 +24,7 @@ export async function createImageCitation(element: ContainerElement) {
     const svgText = `
         <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
             <rect width="100%" height="100%" fill="${backgroundColor}" />
-            <text x="50%" y="${yOffset + fontSize}" font-size="${fontSize}" fill="${textColor}" text-anchor="middle" dominant-baseline="middle" font-family="Arial">
+            <text x="50%" y="${yOffset + fontSize}" font-size="${fontSize}" fill="${textColor}" text-anchor="middle" dominant-baseline="middle">
             ${lines.map((line, index) => `<tspan x="50%" dy="${index === 0 ? 0 : lineHeight}">${line}</tspan>`).join('')}
             </text>
         </svg>`;
@@ -46,7 +46,7 @@ async function wrapText(text: string, maxWidth: number, fontSize: number) {
     for (let i = 1; i < words.length; i++) {
         const word = words[i];
         const testLine = `${currentLine} ${word}`;
-        const svgText = `<svg><text x="0" y="${fontSize}" font-size="${fontSize}" font-family="Arial">${testLine}</text></svg>`;
+        const svgText = `<svg><text x="0" y="${fontSize}" font-size="${fontSize}">${testLine}</text></svg>`;
         const { width } = await sharp(Buffer.from(svgText)).metadata();
 
         if (width && width < maxWidth) {

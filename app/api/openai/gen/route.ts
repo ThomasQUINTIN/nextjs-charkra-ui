@@ -12,6 +12,29 @@ const openai = new OpenAI({
 
 export type Theme = keyof typeof completionsParamsJson;
 async function generatePostContents(theme: Theme, prompt: string) {
+    // return {
+    //     choices: [
+    //         {
+    //             message: {
+    //                 parsed: [{
+    //                     caption: {
+    //                         content: "Hello world",
+    //                         hashtags: ["#hello", "#world"]
+    //                     },
+    //                     background: {
+    //                         value: "#000000",
+    //                         type: "color"
+    //                     },
+    //                     citation: {
+    //                         content: prompt,
+    //                         color: "#ffffff",
+    //                         positions: "center"
+    //                     }
+    //                 }]
+    //             }
+    //         }
+    //     ]
+    // }
     const completionsParams = completionsParamsJson[theme] as OpenAI.Chat.Completions.ChatCompletionMessageParam[]
 
     const completion = await openai.chat.completions.create({
